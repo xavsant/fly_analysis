@@ -1,5 +1,11 @@
 # Fly Analysis
-This repo provides simple analysis for **fly trading for swaps**.
+This repo provides an overview and simple analysis for **fly trading with calendar spreads**.
+
+## How to Use
+### 1. Generate data
+Use the dummy historical dataset in `/data/generated_daily_values.csv` or further experiment with the output in `/generate_data.py`.
+### 2. Run analysis
+Execute `/analysis.py` to get a chart and ${\Delta}PNL$.
 
 ## Definitions
 ### 1. What is a spread?
@@ -47,6 +53,8 @@ It doesn't matter where the fly starts but the direction of the movement.
 - In words, if the fly is negative (cheap) and we believe that the middle month will outperform the wings, buy the fly (long the middle month)
 - In values, if we believe that the fly will increase in value ($ x_{t+1} > x_t $), buy the fly
 
+It's important to figure out when to enter and exit the trade! (refer to [analysis.py](https://github.com/xavsant/fly_analysis/blob/main/analysis.py))
+
 ## Fly vs Outright Long/Short Month
 ### 1. Isolate relative value
 - If you successfully take a position on a month, it's harder to see whether it's because the middle month outperformed/underperformed or because of flat price moves
@@ -58,4 +66,4 @@ It doesn't matter where the fly starts but the direction of the movement.
 ### Note
 - Regardless of trade, you can still take a big hit if your **relative view** is incorrect; middle month behaves differently
 - However, with flies you're more insulated from broad rallies/crashes
-- The risk is concentraded on curve shape, which should generally move less violently than flat prices
+- The risk is concentrated on curve shape, which should generally move less violently than flat prices
