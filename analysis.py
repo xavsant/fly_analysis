@@ -25,10 +25,10 @@ plt.savefig("data/fly_dte_graph.jpg")
 plt.show()
 
 # Delta PNL
-enter_contract = 40 # days to expiry
-exit_contract = 5
-enter_fly = df[df["dte"] == enter_contract]["fly"].values[0]
-exit_fly = df[df["dte"] == exit_contract]["fly"].values[0]
+enter_trade = 40 # days to expiry
+exit_trade = 5
+enter_fly = df[df["dte"] == enter_trade]["fly"].values[0]
+exit_fly = df[df["dte"] == exit_trade]["fly"].values[0]
 delta_pnl = exit_fly - enter_fly # for one unit
-print(f"Delta PNL from entering {enter_contract} dte and exiting {exit_contract} dte is {delta_pnl}.")
+print(f"Delta PNL from entering {enter_trade} dte and exiting {exit_trade} dte is {delta_pnl}.")
 

@@ -53,7 +53,7 @@ It doesn't matter where the fly starts but the direction of the movement.
 - In words, if the fly is negative (cheap) and we believe that the middle month will outperform the wings, buy the fly (long the middle month)
 - In values, if we believe that the fly will increase in value ($ x_{t+1} > x_t $), buy the fly
 
-It's important to figure out when to enter and exit the trade! (refer to [analysis.py](https://github.com/xavsant/fly_analysis/blob/main/analysis.py))
+It's important to figure out when to enter and exit the trade! (experiment by changing `enter_trade` and `exit_trade` in [analysis.py](https://github.com/xavsant/fly_analysis/blob/main/analysis.py))
 
 ## Fly vs Outright Long/Short Month
 ### 1. Isolate relative value
