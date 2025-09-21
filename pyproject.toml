@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "fly-analysis"
+version = "0.1.0"
+description = "Fly Analysis"
+authors = ["xavsant <xavierboons2021@economics.smu.edu.sg>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11.9"
+pandas = "^2.2.3"
+numpy = "2.0.2"
+matplotlib = "^3.10.0"
+notebook = "^7.3.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
