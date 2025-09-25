@@ -16,13 +16,10 @@ Shortform for butterfly, it's a structure that combines **2 calendar spreads**.
 - Measures the relative value of a middle month compared to the average of 2 surrounding months (in the case of swaps, it would comparing the value of a middle contract against the average of 2 surrounding contracts (the wings)
 ### 3. How is a fly calculated?
 For months **M1 (front month), M2 (middle month), M3 (back month)**, the fly is calculated as:
+
 $$
 (M2 - M1) - (M3 - M2) =
 2 * M2 - (M1 + M3)
-$$
-or equivalently:
-$$
-M2 - (M1 + M3) / 2
 $$
 
 #### 3.1 Example

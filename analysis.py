@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 df = pd.read_csv("data/generated_daily_values.csv")
 
 # Calculate fly
-df["fly"] = df["nov"] - (df["oct"] + df["dec"])/2
+df["fly"] = 2 * df["nov"] - (df["oct"] + df["dec"])
 
 # Variables
 dte_min = 0
