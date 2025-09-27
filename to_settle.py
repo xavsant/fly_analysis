@@ -19,7 +19,7 @@ def spread_pnl(df, month: str, is_buy: bool):
 
     return spread_df
 
-
+###
 
 if __name__ == "__main__":
     df = pd.read_csv("data/to_settle_daily_values.csv", index_col='date')
@@ -32,6 +32,7 @@ if __name__ == "__main__":
     back_spread = spread_pnl(df, middle_leg, is_buy = False)
     total_pnl = front_spread.loc['total', 'pnl'] + back_spread.loc['total', 'pnl']
 
+    ###
 
     # Get Results
     print('Total PNL:', total_pnl)
@@ -41,4 +42,3 @@ if __name__ == "__main__":
     print()
     print('Back Spread Daily PNL')
     print(back_spread)
-
