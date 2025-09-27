@@ -1,13 +1,13 @@
 # Fly Analysis
-This repo provides an overview and simple analysis for **fly trading with swaps and calendar spreads**.
+This repo provides an overview for **trading flies with swaps and calendar spreads**.
 
 ## How to Use
 ### 1. Generate data
-Use the dummy historical dataset in `/data/generated_daily_settle.csv` or further experiment with the output in `/generate_data.py`.
+Use the dummy historical dataset in `/data/generated_daily_settle.csv` or further experiment with the output in [`/data/generate_data.py`](https://github.com/xavsant/fly_analysis/blob/main/data/generate_data.py).
 ### 2. Run fly analysis
-Execute `/analysis.py` to get a chart and PNL for an entry-exit trade.
+Execute [`/analysis.py`](https://github.com/xavsant/fly_analysis/blob/main/analysis.py) to get a chart and PNL for an entry-exit trade.
 ### 3. Run settlement analysis
-Execute `/to_settle.py` to get the PNL if you take the contract to settlement. Alternatively, refer to `/data/to_settle_daily_values_pnl_calculated.xlsx` for the calculations in excel.
+Execute [`/to_settle.py`](https://github.com/xavsant/fly_analysis/blob/main/to_settle.py) to get the PNL if you take the contract to settlement. Alternatively, refer to [`/data/to_settle_daily_values_pnl_calculated.xlsx`](https://github.com/xavsant/fly_analysis/blob/main/data/to_settle_daily_values_pnl_calculated.xlsx) for the calculations in excel.
 
 ## Definitions
 ### 1. What is a spread?
