@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("data/generated_daily_values.csv")
+df = pd.read_csv("data/generated_daily_settle.csv")
 
 # Calculate fly
 df["fly"] = 2 * df["nov"] - (df["oct"] + df["dec"])
