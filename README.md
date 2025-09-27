@@ -11,6 +11,10 @@ Execute [`/to_settle.py`](https://github.com/xavsant/fly_analysis/blob/main/to_s
 ### 4. Experiment with systematic trading
 Execute [`/simple_algorithm.py`](https://github.com/xavsant/fly_analysis/blob/main/simple_algorithm.py) to get the PNL if you take intermediate positions in an entry-exit trade. Experiment with the parameters to see how the PNL changes.
 
+### To Do
+- Compare using ML model to systematic trading
+- Create `fly.py` which encapsulates all of the processes above
+
 ## Definitions
 ### 1. What is a spread?
 A spread is the difference in value between two related objects.<br>
