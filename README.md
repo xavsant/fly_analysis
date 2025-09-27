@@ -7,7 +7,9 @@ Use the dummy historical dataset in `/data/generated_daily_settle.csv` or furthe
 ### 2. Run fly analysis
 Execute [`/analysis.py`](https://github.com/xavsant/fly_analysis/blob/main/analysis.py) to get a chart and PNL for an entry-exit trade.
 ### 3. Run settlement analysis
-Execute [`/to_settle.py`](https://github.com/xavsant/fly_analysis/blob/main/to_settle.py) to get the PNL if you take the contract to settlement. Alternatively, refer to [`/data/to_settle_daily_values_pnl_calculated.xlsx`](https://github.com/xavsant/fly_analysis/blob/main/data/to_settle_daily_values_pnl_calculated.xlsx) for the calculations in excel.
+Execute [`/to_settle.py`](https://github.com/xavsant/fly_analysis/blob/main/to_settle.py) to get the PNL if you take the contract to settlement. Alternatively, refer to `/data/to_settle_daily_values_pnl_calculated.xlsx` for the calculations in excel.
+### 4. Experiment with systematic trading
+Execute [`/simple_algorithm.py`](https://github.com/xavsant/fly_analysis/blob/main/simple_algorithm.py) to get the PNL if you take intermediate positions in an entry-exit trade. Experiment with the parameters to see how the PNL changes.
 
 ## Definitions
 ### 1. What is a spread?
@@ -56,6 +58,11 @@ We can either enter and exit the fly when it's still a forward, or take it to [p
 ### 2. Selling
 - Short the middle leg, long the wings
 - Profit if the middle leg becomes **cheaper** (underperforms) relative to the wings: fly goes down
+## 3. Entry-Exit
+Thus, it is important to determine when it's optimal to enter and exit a trade. We can determine this visually, and/or generate summary statistics to determine historical PNL (entry/exit fly value, sharpe, min-max range, etc.)
+
+![Dummy DTE Graph](https://raw.githubusercontent.com/xavsant/fly_analysis/main/graphs/analysis_fly_dte.jpg)
+
 ### Note
 It doesn't matter where the fly starts but the direction of the movement.
 - In words, if the fly is negative (cheap) and we believe that the middle leg will outperform the wings, buy the fly
@@ -75,6 +82,22 @@ It's important to figure out when to enter and exit the trade! (experiment by ch
 - Regardless of trade, you can still take a big hit if your **relative view** is incorrect; middle leg behaves differently
 - However, with flies you're more insulated from broad rallies/crashes
 - The risk is concentrated on curve shape, which should generally move less violently than flat prices
+
+## Systematic Trading
+Instead of holding at entry and selling at exit, we could also design a system to pick up profits along the way i.e. possibly execute multiple trades instead of just one trade.
+
+To do this, we set parameters and rules to follow. We can then compare the profits from taking a systematic vs entry-exit approach.
+
+Here's an explanation of the trade in [`simple_algorithm.py`](https://github.com/xavsant/fly_analysis/blob/main/simple_algorithm.py):
+We adopt a **mean-reversion strategy based on simple moving average (SMA) crossovers**. The short-term SMA (fast) crossing above or below the medium-term SMA (slow) serves as a signal that the fly has deviated significantly from its longer-term average — effectively indicating a temporary mispricing.
+
+- When the short SMA crosses above the medium SMA, the fly is **rich** relative to its recent trend, prompting a short position in anticipation of a downward reversion.
+- When the short SMA crosses below the medium SMA, the fly is **cheap**, prompting a long position to capture an upward reversion.
+
+By entering positions at these local extremes, the strategy aims to profit from the natural oscillation of the fly back toward its mean.
+To take it further, we can implement stop-losses, take-profits, and holding limits to manage risk and prevent large losses in case of sustained trends.
+
+![Short vs Medium SMA Graph](https://raw.githubusercontent.com/xavsant/fly_analysis/main/graphs/simple_algorithm_sma_dte.jpg)
 
 ## Going into Settlement
 ### 1. Entry/Exit before Settlement
@@ -125,8 +148,6 @@ Thus, the **total PNL** would be:
 $$
 (110 - 100) + (104 - 98) + (100 - 101) = 15
 $$
-
----
 
 
 
