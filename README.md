@@ -38,7 +38,7 @@ $$
 
 #### 3.2 Alternative formula
 
-Note that the [implications of the formula](#4-what-does-the-fly-value-imply) are inversed for the following:
+> Note that the [implications of the formula](#4-what-does-the-fly-value-imply) are inversed for the following:
 
 $$
 (M1 + M3) - 2 * M2
@@ -113,13 +113,14 @@ Because we're selling a spread, we're short/long M1/ M2. We make money if the va
 This also means that we're 'missing' 3kt in M1, and we have bought 3kt in M2.<br>
 Each day, we displace the position (ensure we're **delta neutral**) to approach 0/0 (in this case, buy 1kt in M1 and sell 1kt in M2).<br><br>
 To calculate the daily PNL, we do the following:<br>
-<small>Below would be **inversed** for a buy spread (buy/sell in M1/M2 as long/short).</small>
 
 $$
 MOC_{t} - Settle_{t} = PNL_{t}
 $$
 
-Thus, the PNL would be:
+> Above would be **inversed** for a buy spread (buy/sell in M1/M2 as long/short).
+
+Thus, the **total PNL** would be:
 
 $$
 (110 - 100) + (104 - 98) + (100 - 101) = 15
