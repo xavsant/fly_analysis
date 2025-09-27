@@ -97,28 +97,28 @@ For simplicity, we look at a spread going into pricing. For a fly, you apply the
 
 | Date  | M1_Settle | M1_Business_Days_to_Expiry | M2_MOC |
 |-------|-----------|----------------------------|--------|
-| 01/01 | 100       | -1                         | 110    | 
-| 01/02 | 98        | -2                         | 104    | 
-| 01/03 | 101       | -3                         | 100    | 
+| 01/01 | 110       | -1                         | 100    | 
+| 01/02 | 104       | -2                         | 98     | 
+| 01/03 | 100       | -3                         | 101    | 
 
 Suppose you have the following table, where the settle and MOC is aligned to the date. The M1 contract goes into pricing when `M1_Business_Days_to_Expiry < 0` ('expiry' in this sense is when the contract is still traded as a forward swap).
 
 **Variables:**
-1. Volume: `3kt`
-2. Type of Trade: `Sell M1/M2`
-3. Position: `-3kt/3kt`
+1. Volume: `3kt` (kt = kilotonnes)
+2. Type of Trade: `Buy M1/M2`
+3. Position: `3kt/-3kt`
 
 For each day in pricing, we'd put an amount of our volume into the settle (let's average and say 1kt per day).<br>
-Because we're selling a spread, we're short/long M1/ M2. We make money if the value of M1/M2 goes down/up.<br><br>
-This also means that we're 'missing' 3kt in M1, and we have bought 3kt in M2.<br>
-Each day, we displace the position (ensure we're **delta neutral**) to approach 0/0 (in this case, buy 1kt in M1 and sell 1kt in M2).<br><br>
+For a buy spread, we're long/short M1/M2 - we make money if the value of M1/M2 goes up/down.<br><br>
+This also means that we've bought 3kt in M1, and we're 'missing' 3kt in M2.<br>
+Each day, we displace the position (ensure we're **delta neutral**) to approach 0/0 (in this case, sell 1kt in M1 and buy 1kt in M2).<br><br>
 To calculate the daily PNL, we do the following:<br>
 
 $$
-MOC_{t} - Settle_{t} = PNL_{t}
+Settle_{t} - MOC_{t} = PNL_{t}
 $$
 
-> Above would be **inversed** for a buy spread (buy/sell in M1/M2 as long/short).
+> This formula would be **inversed** for a sell spread (short/long M1/M2, -3kt/3kt, buy kt in M1 and sell kt in M2).
 
 Thus, the **total PNL** would be:
 
