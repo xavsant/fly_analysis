@@ -7,7 +7,9 @@ Use the dummy historical dataset in `/data/generated_daily_settle.csv` or furthe
 ### 2. Run fly analysis
 Execute [`/analysis.py`](https://github.com/xavsant/fly_analysis/blob/main/analysis.py) to get a chart and PNL for an entry-exit trade.
 ### 3. Run settlement analysis
-Execute [`/to_settle.py`](https://github.com/xavsant/fly_analysis/blob/main/to_settle.py) to get the PNL if you take the contract to settlement. Alternatively, refer to [`/data/to_settle_daily_values_pnl_calculated.xlsx`](https://github.com/xavsant/fly_analysis/blob/main/data/to_settle_daily_values_pnl_calculated.xlsx) for the calculations in excel.
+Execute [`/to_settle.py`](https://github.com/xavsant/fly_analysis/blob/main/to_settle.py) to get the PNL if you take the contract to settlement. Alternatively, refer to `/data/to_settle_daily_values_pnl_calculated.xlsx` for the calculations in excel.
+### 4. Experiment with systematic trading
+Execute [`/simple_algorithm.py`](https://github.com/xavsant/fly_analysis/blob/main/simple_algorithm.py) to get the PNL if you take intermediate positions in an entry-exit trade. Experiment with the parameters to see how the PNL changes.
 
 ## Definitions
 ### 1. What is a spread?
@@ -76,6 +78,11 @@ It's important to figure out when to enter and exit the trade! (experiment by ch
 - However, with flies you're more insulated from broad rallies/crashes
 - The risk is concentrated on curve shape, which should generally move less violently than flat prices
 
+## Systematic Trading
+Instead of holding at entry and selling at exit, we could also design a system to pick up profits along the way i.e. possibly execute multiple trades instead of just one trade.
+
+To do this, we set parameters and rules to follow. We can then compare the profits from taking a systematic vs entry-exit approach.
+
 ## Going into Settlement
 ### 1. Entry/Exit before Settlement
 - Typically, we enter and exit a fly trade before the contract month starts
@@ -125,8 +132,6 @@ Thus, the **total PNL** would be:
 $$
 (110 - 100) + (104 - 98) + (100 - 101) = 15
 $$
-
----
 
 
 
