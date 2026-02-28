@@ -18,7 +18,7 @@ Execute [`/simple_algorithm.py`](https://github.com/xavsant/fly_analysis/blob/ma
 ## Definitions
 ### 1. What is a spread?
 A spread is the difference in value between two related objects.<br>
-This repo focuses on calendar spread - for instance, the difference in monthly average price for an asset from January to February.
+This repo focuses on calendar spread - for instance, the difference in price for an asset in January vs February.
 ### 2. What is a fly?
 Shortform for butterfly, it's a structure that combines **2 calendar spreads**.
 - Measures the relative value of 2x the middle month compared to its 2 surrounding months (wings)
@@ -26,8 +26,8 @@ Shortform for butterfly, it's a structure that combines **2 calendar spreads**.
 For months **M1 (front leg), M2 (middle leg), M3 (back leg)**, the fly is calculated as:
 
 $$
-(M2 - M1) - (M3 - M2) =
-2 * M2 - (M1 + M3)
+(M1 - M2) - (M2 - M3) =
+(M1 + M3) - 2 * M2
 $$
 
 #### 3.1 Example
@@ -39,29 +39,19 @@ $$
 | M3    | 103   |
 
 $$
-Fly = 105 - (100 + 103) / 2 = 3.5
+Fly = (100 + 103) / 2 - 105  = -3.5
 $$ 
 
-#### 3.2 Alternative formula
-
-> Note that the [implications of the formula](#4-what-does-the-fly-value-imply) are inversed for the following:
-
-$$
-(M1 + M3) - 2 * M2
-$$
-
 ### 4. What does the fly value imply?
-We can either enter and exit the fly when it's still a forward, or take it to [pricing](#going-into-pricing). This section treats fly values as an entry-exit trade.
-- We say the middle leg is **rich** (overpriced) when the fly is positive: the middle leg has a higher value than the average of the wings
-- We say the middle leg is **cheap** (underpriced) when the fly is negative: the middle leg has a lower value than the average of the wings
+We can either enter and exit the fly when it's still trading in the swap market at a theoretical value, or take it to [physical pricing](#going-into-pricing). This section treats fly values as an entry-exit trade.
 
 ## Buying/Selling the Fly
 ### 1. Buying
-- Long the middle leg, short the wings
-- Profit if the middle leg becomes **richer** (outperforms) relative to the wings: fly goes up
+- Long the wings, short the middle leg
+- Profit if the wings become **richer** (outperforms) relative to the middle leg: fly goes up
 ### 2. Selling
-- Short the middle leg, long the wings
-- Profit if the middle leg becomes **cheaper** (underperforms) relative to the wings: fly goes down
+- Short the wings, long the middle leg
+- Profit if the wings become **cheaper** (underperforms) relative to the middle leg: fly goes down
 ## 3. Entry-Exit
 Thus, it is important to determine when it's optimal to enter and exit a trade. We can determine this visually, and/or generate summary statistics to determine historical PNL (entry/exit fly value, sharpe, min-max range, etc.)
 
@@ -69,7 +59,7 @@ Thus, it is important to determine when it's optimal to enter and exit a trade. 
 
 ### Note
 It doesn't matter where the fly starts but the direction of the movement.
-- In words, if the fly is negative (cheap) and we believe that the middle leg will outperform the wings, buy the fly
+- In words, if the fly is negative (cheap) and we believe that the wings will outperform the middle leg, buy the fly
 - In values, if we believe that the fly will increase in value ($ x_{t+1} > x_t $), buy the fly
 
 It's important to figure out when to enter and exit the trade! (experiment by changing `enter_trade` and `exit_trade` in [analysis.py](https://github.com/xavsant/fly_analysis/blob/main/analysis.py))
@@ -85,7 +75,7 @@ It's important to figure out when to enter and exit the trade! (experiment by ch
 ### Note
 - Regardless of trade, you can still take a big hit if your **relative view** is incorrect; middle leg behaves differently
 - However, with flies you're more insulated from broad rallies/crashes
-- The risk is concentrated on curve shape, which should generally move less violently than flat prices
+- The risk is concentrated on curve shape, which will move less violently than flat prices
 
 ## Systematic Trading
 Instead of holding at entry and selling at exit, we could also design a system to pick up profits along the way i.e. possibly execute multiple trades instead of just one trade.
@@ -116,19 +106,19 @@ To take it further, we can implement stop-losses, take-profits, and holding limi
 A price assessment process, most famously used by [Platts](https://www.spglobal.com/content/dam/spglobal/general/en/documents/easset_upload_file58950_994814_e.pdf). 
 - Platts observes all the bids, offers and trades submitted during the last 30 minutes of the trading day
 - Those trades are used to publish the official index which becomes the settlement basis for swaps
-- We can use the MOC to estimate the PNL for a fly going into pricing (estimate next leg's value based on what was traded in the market)
+- We can use the MOC to estimate the PNL for a fly going into pricing
 
 #### 3.1 Example
 
 For simplicity, we look at a spread going into pricing. For a fly, you apply the same logic on the second spread as the middle leg goes into pricing.
 
-| Date  | M1_Settle | M1_Business_Days_to_Expiry | M2_MOC |
+| Date  | M0_MOC | M1_Business_Days_to_Expiry | M1_MOC |
 |-------|-----------|----------------------------|--------|
 | 01/01 | 110       | -1                         | 100    | 
 | 01/02 | 104       | -2                         | 98     | 
 | 01/03 | 100       | -3                         | 101    | 
 
-Suppose you have the following table, where the settle and MOC is aligned to the date. The M1 contract goes into pricing when `M1_Business_Days_to_Expiry < 0` ('expiry' in this sense is when the contract is still traded as a forward swap).
+Suppose you have the following table, where the settle and MOC is aligned to the date. The M1 contract goes into pricing (or daily settlement) when `M1_Business_Days_to_Expiry < 0` ('expiry' in this sense is when the contract is still traded as a forward swap) - effectively M1 becomes M0 and M2 becomes M1.
 
 **Variables:**
 1. Volume: `3kt` (kt = kilotonnes)
@@ -136,23 +126,21 @@ Suppose you have the following table, where the settle and MOC is aligned to the
 3. Position: `3kt/-3kt`
 
 For each day in pricing, we'd put an amount of our volume into the settle (let's average and say 1kt per day).<br>
-For a buy spread, we're long/short M1/M2 - we make money if the value of M1/M2 goes up/down.<br><br>
-This also means that we've bought 3kt in M1, and we're 'missing' 3kt in M2.<br>
-Each day, we displace the position (ensure we're **delta neutral**) to approach 0/0 (in this case, sell 1kt in M1 and buy 1kt in M2).<br><br>
+For a buy spread, we're long/short M1/M2 - we make money if the value of M0/M1 goes up/down.<br><br>
+This also means that we've bought 3kt in M0, and we're 'missing' 3kt in M1.<br>
+Each day, we displace the position (ensure we're **delta neutral**) to approach 0/0 (in this case, sell 1kt in M0 and buy 1kt in M1).<br><br>
 To calculate the daily PNL, we do the following:<br>
 
 $$
-Settle_{t} - MOC_{t} = PNL_{t}
+M0_MOC_{t} - M1_MOC_{t} = PNL_{t}
 $$
 
-> This formula would be **inversed** for a sell spread (short/long M1/M2, -3kt/3kt, buy kt in M1 and sell kt in M2).
+> This formula would be **inversed** for a sell spread (short/long M0/M1, -3kt/3kt, buy kt in M0 and sell kt in M1).
 
 Thus, the **total PNL** would be:
 
 $$
 (110 - 100) + (104 - 98) + (100 - 101) = 15
 $$
-
-
 
 
