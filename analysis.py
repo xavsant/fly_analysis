@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 df = pd.read_csv("data/generated_daily_settle.csv")
 
 # Calculate fly
-df["fly"] = 2 * df["nov"] - (df["oct"] + df["dec"])
-df["rolling_fly"] = df["fly"].rolling(5, center=False).mean()
+df["fly"] = (df["oct"] - df["nov"]) - (df["nov"] - df["dec"])
+df["rolling_fly"] = df["fly"].rolling(10, center=False).mean()
 
 # Variables
 dte_min = 0
@@ -13,13 +13,13 @@ dte_max = 100
 df_filtered = df[(df["dte"] >= dte_min) & (df["dte"] <= dte_max)]
 
 # Delta PNL for Entry-Exit
-enter_trade = 40 # days to expiry
-exit_trade = 5
+enter_trade = 60 # days to expiry
+exit_trade = 1
+position = -1
 volume = 1000
 enter_fly = df[df["dte"] == enter_trade]["fly"].values[0]
 exit_fly = df[df["dte"] == exit_trade]["fly"].values[0]
-delta_pnl = (exit_fly - enter_fly) * volume
-# Note: position is short
+delta_pnl = (exit_fly - enter_fly) * volume * position
 print(f"Delta PNL from entering {enter_trade} dte and exiting {exit_trade} dte is {delta_pnl}.")
 
 # Plot

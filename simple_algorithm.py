@@ -27,7 +27,7 @@ volume = 1000 # 1kt per trade
 # Get Variables #
 #################
 
-df["fly"] = 2 * df["nov"] - (df["oct"] + df["dec"])
+df["fly"] = (df["oct"] - df["nov"]) - (df["nov"] - df["dec"])
 df["short_SMA"] = df['fly'].rolling(window=short_SMA).mean()
 df["medium_SMA"] = df['fly'].rolling(window=medium_SMA).mean()
 df = df[(df['dte'] >= exit_dte) & (df['dte'] <= enter_dte)]
@@ -93,8 +93,8 @@ print(trades_df)
 # Enter-Exit PNL, position = short
 entry_fly = df[df['dte'] == enter_dte]['fly'].values[0]
 exit_fly = df[df['dte'] == exit_dte]['fly'].values[0]
-ee_pnl = -(exit_fly - entry_fly) * volume
-print('PNL for Entry-Exit Trade:')
+ee_pnl = (exit_fly - entry_fly) * volume * 1 # assume long
+print('PNL for Buy & Hold Trade:')
 print("Entry Fly:", entry_fly, "Exit Fly:", exit_fly)
 print("PNL:", ee_pnl)
 
