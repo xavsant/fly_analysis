@@ -60,7 +60,7 @@ Thus, it is important to determine when it's optimal to enter and exit a trade. 
 ### Note
 It doesn't matter where the fly starts but the direction of the movement.
 - In words, if the fly is negative (cheap) and we believe that the wings will outperform the middle leg, buy the fly
-- In values, if we believe that the fly will increase in value ($ x_{t+1} > x_t $), buy the fly
+- In values, if we believe that the fly will increase in value ($x_{t+1} > x_t$), buy the fly
 
 It's important to figure out when to enter and exit the trade! (experiment by changing `enter_trade` and `exit_trade` in [analysis.py](https://github.com/xavsant/fly_analysis/blob/main/analysis.py))
 
